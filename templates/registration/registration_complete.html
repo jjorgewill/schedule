@@ -1,0 +1,34 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block head_title %}{% trans "Register complete" %}{% endblock %}
+{% block container %}
+
+ <div class="block-center mt-xl wd-xl">
+         <!-- START panel-->
+         <div class="panel panel-dark panel-flat">
+            <div class="panel-heading text-center">
+               <a href="#">
+                  <img src="{% static '/app/img/logo.png' %}" alt="Image" class="block-center img-rounded">
+               </a>
+            </div>
+            <div class="panel-body">
+               <p class="text-center pv">{% trans 'Register complete' %}.</p>
+                <p class="pt-lg text-center">{% trans 'Verifique su correo para completar su proceso de registro' %}</p>
+
+            </div>
+         </div>
+         <!-- END panel-->
+         <div class="p-lg text-center">
+            <span>&copy;</span>
+            <span>{% now 'Y' %}</span>
+            <span>-</span>
+            <span>MegaHet</span>
+            <br>
+            <span>Mega Schedule</span>
+         </div>
+      </div>
+{% endblock %}
+
+
+

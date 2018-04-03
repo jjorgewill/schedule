@@ -1,0 +1,70 @@
+{% extends 'base/base.html' %}
+{%load staticfiles %}
+{% load widget_tweaks %}
+{%load i18n %}
+{% block container %}
+   <section>
+      <div class="content-wrapper">
+          <div class="pull-right">
+               <div class="btn-group">
+                  <a href="{% url 'view_turns' %}">
+                     <em class="fa fa-fw fa-chevron-left mr"></em>
+                     <span>{% trans 'All turns' %}</span>
+                  </a>
+               </div>
+            </div>
+            <h3>{% trans 'Create turn' %}</h3>
+            <ol class="breadcrumb">
+               <li><a href="#">{% trans 'Home' %}</a> </li>
+               <li><a href="{% url 'view_turns' %}">{% trans 'Turns' %}</a></li>
+               <li class="active">{% trans 'Create' %}</li>
+             </ol>
+         <div class="col-md-8">
+            <div class="panel panel-primary">
+            <div class="panel-heading">{% trans 'Information a new turn' %}</div>
+            <div class="panel-body">
+               <form id="" method="post" class="form-horizontal">
+                  {% csrf_token %}
+                  <div>
+                       <div class="form-group">
+                           <label for="id_name" class="col-sm-3 control-label">{% trans 'Name' %}</label>
+                           <div class="col-sm-9">
+                              {% render_field form.name autocomplete='off' required='required' class="form-control" %}
+                           </div>
+                        </div>
+                       <div class="form-group">
+                           <label for="id_hour" class="col-sm-3 control-label">{% trans 'Hour' %}</label>
+                           <div class="col-sm-9">
+                              {% render_field form.hour required='required' class="form-control" %}
+                           </div>
+                        </div>
+                     <div>
+                       <ul class="pager">
+                        <li class="next"><button type="submit" class="btn btn-info">{% trans 'Save' %}</button></li>
+                       </ul>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+         </div>
+         <div class="col-md-4">
+            <div class="panel panel-primary" id="panel2">
+                  <div class="panel-heading">{% trans 'Help' %}</div>
+                 <div class="panel-body">
+                     <h2>{% trans 'Area for display help' %}</h2>
+                 </div>
+            </div>
+         </div>
+      </div>
+   </section>
+{% endblock %}
+{% block js %}
+   <!-- INPUT MASK-->
+   <script src="{% static '/vendor/jquery.inputmask/dist/jquery.inputmask.bundle.js' %}"></script>
+   <script>
+   $(function(){
+    $('[data-masked]').inputmask();
+    })
+   </script>
+{% endblock %}

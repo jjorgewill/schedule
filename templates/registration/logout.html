@@ -1,0 +1,31 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block head_title %}{% trans "Sign Up" %}{% endblock %}
+{% block container %}
+<div class="block-center mt-xl wd-xl">
+         <!-- START panel-->
+         <div class="panel panel-dark panel-flat">
+            <div class="panel-heading text-center">
+               <a href="#">
+                  <img src="{% static '/app/img/logo.png' %}" alt="Image" class="block-center img-rounded">
+               </a>
+            </div>
+            <div class="panel-body">
+               <p class="pt-lg text-center">{% trans 'See you,go back soon.' %}</p>
+                   <a href="/accounts/login/" class="btn btn-block btn-default">{% trans 'Sign in' %}</a>
+            </div>
+         </div>
+         <!-- END panel-->
+        <div class="p-lg text-center">
+            <span>&copy;</span>
+            <span>{% now 'Y' %}</span>
+            <span>-</span>
+            <span>MegaHet</span>
+            <br>
+            <span>Mega Schedule</span>
+         </div>
+      </div>
+{% endblock %}
+{% block js %}
+{% endblock %}

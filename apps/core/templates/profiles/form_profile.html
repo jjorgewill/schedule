@@ -1,0 +1,147 @@
+{% extends 'base/base.html' %}
+{%load staticfiles %}
+{%load i18n %}
+{% load widget_tweaks %}
+{% block css %}{% endblock %}
+{% block container %}
+ <section>
+         <!-- Page content-->
+         <div class="content-wrapper">
+            <div class="pull-right">
+               <div class="btn-group">
+                  <a href="{% url 'view_profiles' %}">
+                     <em class="fa fa-fw fa-chevron-left mr"></em>
+                     <span>{% trans 'All profiles' %}</span>
+                  </a>
+               </div>
+            </div>
+            <h3>{% trans 'Profiles' %}</h3>
+             <ol class="breadcrumb">
+           <li><a href="#">{% trans 'Home' %}</a> </li>
+           <li><a href="{% url 'view_profiles' %}">{% trans 'Profiles' %}</a></li>
+           <li class="active">{% trans 'Create' %}</li>
+         </ol>
+            <div class="row">
+               <div class="col-md-4">
+                  <div class="panel panel-default">
+                     <div class="panel-body text-center">
+                        <div class="pv-lg">
+                            <img src="{{request.user.profile.get_avatar}}" alt="{% trans 'Profile' %}" class="center-block img-responsive img-circle img-thumbnail thumb96">
+                        </div>
+                        <h3 class="m0 text-bold">{{request.user.first_name}}</h3>
+                        <div class="mv-lg">
+                           <p>{% trans 'Amount profiles' %}: {{profiles|length}} <br></p>
+                        </div>
+                     </div>
+                  </div>
+                  {% if profiles|length %}
+                  <div class="panel panel-default hidden-xs hidden-sm">
+                     <div class="panel-heading">
+                        <div class="panel-title text-center">{% trans 'Recent profiles' %}</div>
+                     </div>
+                     <div class="panel-body">
+                        {% for obj in profiles %}
+                        <div class="media">
+                           <div class="media-left media-middle">
+                              <a href="#">
+                                 <img src="{{ obj.get_avatar }}" alt="{% trans 'Profile' %}" class="media-object img-circle img-thumbnail thumb48">
+                              </a>
+                           </div>
+                           <div class="media-body pt-sm">
+                              <div class="text-bold">{{obj.user.first_name}}
+                                 <div class="text-sm text-muted">{{obj.user.profile.profession|default:'-'}} </div>
+                              </div>
+                           </div>
+                        </div>
+                        {% endfor %}
+                     </div>
+                  </div>
+                  {%endif%}
+               </div>
+               <div class="col-md-8">
+                  <div class="panel panel-default">
+                     <div class="panel-body">
+                        <div class="h4 text-center">{% trans 'New profile information' %}</div>
+                        <div class="row pv-lg">
+                           <div class="col-lg-2"></div>
+                           <div class="col-lg-8">
+                              <form class="form-horizontal" id="form_submit_client" method="post" enctype="multipart/form-data">
+                                 {% csrf_token %}
+                                 <div class="form-group">
+                                    <label for="id_first_name" class="col-sm-3 control-label" style="text-decoration: underline;">{% trans 'Name' %}</label>
+                                    <div class="col-sm-9">
+                                       {% render_field form.first_name autocomplete='off' required='required' class="form-control" %}
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="id_last_name" class="col-sm-3 control-label" style="text-decoration: underline;">{% trans 'Last name' %}</label>
+                                    <div class="col-sm-9">
+                                       {% render_field form.last_name autocomplete='off' required='required' class="form-control" %}
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="id_email" class="col-sm-3 control-label" style="text-decoration: underline;">{% trans 'Email' %}</label>
+                                    <div class="col-sm-9">
+                                       {% render_field form.email autocomplete='off' required='required' class="form-control" %}
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="id_color" class="col-sm-3 control-label" style="text-decoration: underline;">{% trans 'Color' %}</label>
+                                    <div class="col-sm-9">
+                                       {% render_field form.color autocomplete='off' required='required' class="form-control" %}
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="id_phone" class="col-sm-3 control-label">{% trans 'Mobile' %}</label>
+                                    <div class="col-sm-9">
+                                       {% render_field form.phone class="form-control" %}
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="id_profession" class="col-sm-3 control-label">{% trans 'Profession' %}</label>
+                                    <div class="col-sm-9">
+                                       {% render_field form.profession class="form-control" %}
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="id_avatar" class="col-sm-3 control-label">{% trans 'Avatar' %}</label>
+                                    <div class="col-sm-9">
+                                       {% render_field form.avatar data-classbutton="btn btn-default" data-classinput="form-control inline" class="form-control filestyle" %}
+
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="id_admin" class="col-sm-3 control-label">{% trans 'Is adminitrator' %}</label>
+                                    <div class="col-sm-9">
+                                       {% render_field form.admin class="form-control" %}
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-9">
+                                       <button type="submit" id="submit_clients" class="btn btn-info">{% trans 'Save' %}</button>
+                                    </div>
+                                 </div>
+                              </form>
+                              <div class="text-right"><a href="#" class="text-muted" style="display:none">{{request.user.}} {% trans 'Delete this contact?' %}</a>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+   </section>
+{% endblock %}
+{% block js %}
+   <script src="{% static 'app/js/demo/demo-rtl.js' %}"></script>
+   <script>
+   $(document).ready(function(){
+      $("#form_submit_client").on('submit',function(event){
+            $("#submit_clients").text({% trans 'Sending' %})
+      })
+   })
+
+   </script>
+   <script src="{% static 'vendor/bootstrap-filestyle/src/bootstrap-filestyle.js' %}"></script>
+{% endblock %}

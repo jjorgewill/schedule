@@ -1,0 +1,34 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block head_title %}{% trans "Activation fail" %}{% endblock %}
+{% block container %}
+
+ <div class="block-center mt-xl wd-xl">
+         <!-- START panel-->
+         <div class="panel panel-dark panel-flat">
+            <div class="panel-heading text-center">
+               <a href="#">
+                  <img src="img/logo.png" alt="Image" class="block-center img-rounded">
+               </a>
+            </div>
+            <div class="panel-body">
+               <p class="text-center pv">{% trans 'ACTIVATION FAIL' %}.</p>
+                <p class="pt-lg text-center">{% trans 'We are sorry your activations was fail' %}</p>
+            </div>
+         </div>
+         <!-- END panel-->
+         <div class="p-lg text-center">
+            <span>&copy;</span>
+            <span>{% now 'Y' %}</span>
+            <span>-</span>
+            <span>MegaHet</span>
+            <br>
+            <span>Mega Schedule</span>
+         </div>
+      </div>
+{% endblock %}
+
+
+
+

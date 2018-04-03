@@ -1,0 +1,44 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% block head_title %}{% trans "Sign Up" %}{% endblock %}
+{% block container %}
+<div class="block-center mt-xl wd-xl">
+         <!-- START panel-->
+         <div class="panel panel-dark panel-flat">
+            <div class="panel-heading text-center">
+               <a href="#">
+                  <img src="img/logo.png" alt="Image" class="block-center img-rounded">
+               </a>
+            </div>
+            <div class="panel-body">
+               <p class="pt-lg text-center">{% trans 'Are you sure you want to sign out?' %}</p>
+              <form method="post" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                {% endif %}
+                <button type="submit" class="btn btn-block btn-primary mt-lg">{% trans 'Sign Out' %}</button>
+              </form>
+            </div>
+         </div>
+         <!-- END panel-->
+        <div class="p-lg text-center">
+            <span>&copy;</span>
+            <span>{% now 'Y' %}</span>
+            <span>-</span>
+            <span>MegaHet</span>
+            <br>
+            <span>Mega Schedule</span>
+         </div>
+      </div>
+{% endblock %}
+{% block js %}
+<script>
+    $(document).ready(function() {
+    $('#signupInputEmail').on('blur',function(){
+        $('#id_username').val($(this).val())
+    });
+});
+</script>
+{% endblock %}

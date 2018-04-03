@@ -1,0 +1,64 @@
+{% load i18n %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>{{ site.name }} {% trans "registration" %}</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+
+<body>
+
+<div style="padding: 15px;">
+    <div style="border: solid 1px #4b91ea;background:#4b91ea;">
+        <div style="background: #3a3f51;text-align: center;">
+            <h2 style=" margin-top: 0;padding-top: 25px; color: white; font-size: 1.3em; font-weight: bold;">
+                <img src="/static/app/img/logo.png"></h2>
+            <a href="http://declaracionsri.com" target="_blank"
+               style="text-decoration: none;color:white;font-size:19px">www.declaracionsri.com</a>
+
+            <p style="background-color: white;text-align: justify; font-size: 16px;font-family:'Arial,Helvetica,Roboto,sans-serif';padding: 4%;">
+                <i> Le damos la bienvenida a nuestro sistema esperando que se veneficie del servicio y reciba la
+                    experiencia que usted merece.
+                    <br>
+                    Para la activación de cuenta click en el siguiente botón antes de
+                    {{ expiration_days }} dias:</i>
+
+                <br>
+                <br>
+                <br>
+                <span><a href="http://declaracionsri.com{% url 'registration_activate' activation_key %}" style="background: #4b91ea;text-align: center; width: 100px; margin-left: 2%;color: white;
+    text-decoration: none; padding: 1% 5%;">
+                    Activar
+                </a></span>
+                <br>
+                <br>
+                <br>
+                <i> Esperamos cumplir con sus expectativa, puede contactarnos a traves de:
+                    <br>
+                    <strong>Telefono:</strong> xxxxxxxx <br>
+                    <strong>Email:</strong> soporte@declaracionsri.com</i>
+            </p>
+            <br/>
+
+            <div style=" background-color: #e2e2e2; font-style: italic; margin-top: 55px;padding: 1px 39px;">
+                <p>
+                    <small> Copyright &copy; {% now 'Y' %} Declaracionsri.com, todos los derechos reservados. <br> Usted
+                        esta recibiendo este correo por ser cliente de
+                        <a href="http://declaracionsri.com">declaracionsri.com</a>,
+                        <br> Si usted ha recibido este correo y no es el propietario po favor reportenos la insidencia a
+                        <strong>soporte@declaracionsri.com</strong></small>
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+Reciba un cordial saludo,
+Mega Schedule Administración
+
+</p>
+</body>
+
+</html>

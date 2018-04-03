@@ -1,0 +1,237 @@
+{% extends 'base/base.html' %}
+{%load staticfiles %}
+{% load widget_tweaks %}
+{%load i18n %}
+{%block title%}
+{% trans 'Calendar' %}
+{%endblock%}
+{%block css%}
+<link rel="stylesheet" href="{% static 'vendor/fullcalendar/dist/fullcalendar.css' %}">
+{%endblock%}
+{% block container %}
+  <section>
+     <div class="content-wrapper">
+        <h3>{% trans 'Full Calendar' %}
+           <small>{% trans 'Drag and Drop profile' %}</small>
+        </h3>
+         <ol class="breadcrumb">
+           <li><a href="#">{% trans 'Home' %}</a></li>
+           <li class="active">{% trans 'Calendar' %}</li>
+         </ol>
+        <!-- START row-->
+        <div class="calendar-app">
+            <div class="row">
+              <div class="col-lg-3 col-md-4">
+                 {% for obj in profiles %}
+                  <div class="panel panel-default" id="panel{{obj.id}}"
+                  style="border-left-color: {{obj.color}}; border-left-width: 4px; border-bottom-color: {{obj.color}}; border-bottom-width: 2px;">
+                    <div class="panel-heading panel-heading-collapsed">{% if obj.name %} {{obj.name}} {{obj.last_name}} {% else %} {% trans 'Profile incomplete' %}{% endif %}
+                       <a class="pull-right" href="#" data-tool="panel-collapse" data-toggle="tooltip"
+                          title="" data-original-title="Collapse Panel">
+                          <em class="fa fa-plus"></em>
+                       </a>
+                        {% if obj.hours %}
+                        <span class="label label-green pull-right"><em class="fa fa-clock-o"></em> {{obj.hours}}</span>
+                        {% endif %}
+                    </div>
+                    <!-- .panel-wrapper is the element to be collapsed-->
+                    <div class="panel-wrapper collapse" aria-expanded="false" style="height: 0px;">
+                       <div class="panel-body">
+                            <table class="table bb">
+                            <tbody>
+                               <tr>
+                                  <td>
+                                     <strong>{% trans 'Last time' %}</strong>
+                                  </td>
+                                  <td class="pull-right">{% if obj.hour_before_day %}<em class="fa fa-clock-o"></em> {{obj.hour_before_day}} hr {%else%}0 hr{%endif%}</td>
+                               </tr>
+                               <tr>
+                                  <td>
+                                     <strong>{% trans 'Next time' %}</strong>
+                                  </td>
+                                  <td class="pull-right">{% if obj.hour_last_day %}<em class="fa fa-clock-o"></em> {{obj.hour_last_day}} hr{%else%}0 hr{%endif%}</td>
+                               </tr>
+                               {% if obj.time_after_today_per_turn_set %}
+                               <tr>
+                                  <td>
+                                     <strong>{% trans 'Next hour per turn' %}</strong>
+                                  </td>
+                               </tr>
+                               {% endif %}
+                               {% for turn in obj.time_after_today_per_turn_set.all %}
+                               <tr>
+                                  <td>
+                                     <span>{{turn.turn__name}}</span>
+                                  </td>
+                                  <td class="pull-right">{% if turn.duration_hours__sum %}<em class="fa fa-clock-o"></em> {{turn.duration_hours__sum}} hr{%else%}0 hr{%endif%}</td>
+                               </tr>
+                               {% endfor %}
+                               {% if obj.time_before_today_per_turn %}
+                               <tr>
+                                  <td>
+                                     <strong>{% trans 'Before hour per turn' %}</strong>
+                                  </td>
+                               </tr>
+                               {%endif%}
+                               {% for turn in obj.time_before_today_per_turn.all %}
+                               <tr>
+                                  <td>
+                                     <span>{{turn.turn__name}}</span>
+                                  </td>
+                                  <td class="pull-right">{% if turn.duration_hours__sum %}<em class="fa fa-clock-o"></em> {{turn.duration_hours__sum}} hr{%else%}0 hr{%endif%}</td>
+                               </tr>
+                               {% endfor %}
+                               {% if obj.time_per_month_per_turn %}
+                               <tr>
+                                  <td>
+                                     <strong>{% trans 'All hour per turn' %}</strong>
+                                  </td>
+                               </tr>
+                               {%endif%}
+                               {% for turn in obj.time_per_month_per_turn.all %}
+                               <tr>
+                                  <td>
+                                     <span>{{turn.turn__name}}</span>
+                                  </td>
+                                  <td class="pull-right">{% if turn.duration_hours__sum %}<em class="fa fa-clock-o"></em> {{turn.duration_hours__sum}} hr{%else%}0 hr{%endif%}</td>
+                               </tr>
+                               {% endfor %}
+                            </tbody>
+                            </table>
+                       </div>
+                       <div class="panel-footer bb">
+                           {% if obj.percent > 0 %}
+                                <div class="table-grid table-grid-align-middle mv">
+                                   <div class="col">
+                                      <div class="progress progress-xs m0">
+                                         <div class="progress-bar progress-bar-info" style="width: {{obj.percent}}%;">{{obj.percent}}%</div>
+                                      </div>
+                                   </div>
+                                   <div class="col wd-xxs text-right">
+                                      <div class="text-bold text-muted">{{obj.percent}}%</div>
+                                   </div>
+                                </div>
+                           {% endif %}
+                       </div>
+                    </div>
+                 </div>
+                 {% endfor %}
+              </div>
+              <div class="col-lg-9 col-md-8">
+                 <!-- START panel-->
+                 <div class="panel panel-default">
+                    <div class="panel-body">
+                       <!-- START calendar-->
+                       <div id="calendar"></div>
+                       <!-- END calendar-->
+                    </div>
+                 </div>
+                 <!-- END panel-->
+              </div>
+           </div>
+           <!-- END row-->
+        </div>
+     </div>
+  </section>
+{% endblock %}
+
+{% block js %}
+<script src="{% static '/vendor/jquery-ui/jquery-ui.js' %}"></script>
+<script src="{% static '/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js' %}"></script>
+<!-- MOMENT JS-->
+<script src="{% static '/vendor/moment/min/moment-with-locales.min.js' %}"></script>
+<!-- FULLCALENDAR-->
+<script src="{% static '/vendor/fullcalendar/dist/fullcalendar.min.js' %}"></script>
+<script src="{% static '/vendor/fullcalendar/dist/gcal.js' %}"></script>
+<script>
+ $(document).ready(function() {
+
+    $('#calendar').fullCalendar({
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'monthy'
+      },
+      buttonIcons: { // note the space at the beginning
+          prev:    ' fa fa-caret-left',
+          next:    ' fa fa-caret-right'
+      },
+      buttonText: {
+          month: 'month'
+      },
+      navLinks: true, // can click day/week names to navigate views
+      selectable: true,
+      selectHelper: true,
+      viewRender: function(view, element) {
+          $.ajax({
+              url : '/dashboard/get_turns/',
+              data : {csrfmiddlewaretoken: $("input[name$='csrfmiddlewaretoken']").val(),
+              date:view.currentDate.format('MM-YYYY')},
+              dataType : "json",
+              success: function(data ){
+              if(data.status){
+                events = data.data
+                $('#calendar').fullCalendar( 'addEventSource', events );
+                }else{
+                    events = []
+                }
+
+            }
+            });
+      },
+      select: function(start, end) {
+      $('#id_date_start').val(start.format('DD/MM/YYYY'))
+      $('#id_date_end').val(end.format('DD/MM/YYYY'))
+      $('#modalTurns').modal('show')
+        $('#calendar').fullCalendar('unselect');
+      },
+      editable: true,
+      eventLimit: true, // allow "more" link when too many events
+      events: []
+    });
+
+    <!--$('#form_submit_event').on('submit',function(event){-->
+        <!--event.preventDefault()-->
+        <!---->
+    <!--})-->
+
+  });
+</script>
+
+<div class="modal fade" id="modalTurns" tabindex="-1" role="dialog"
+     aria-labelledby="modalTurnsLabelSmall" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               <h4 class="modal-title" id="myModalLabelSmall">{% trans 'Schedule a Turn' %}</h4>
+            </div>
+            <form action="{% url 'create_calendar' %}" class="form-horizontal" id="form_submit_event" method="post" >
+                <div class="modal-body">
+                        {% csrf_token %}
+                         <div class="form-group">
+                            <label for="id_turn" class="col-sm-3 control-label" style="text-decoration: underline;">{% trans 'Turn' %}</label>
+                            <div class="col-sm-9">
+                               {% render_field form.turn required='required' class="form-control" %}
+                            </div>
+                         </div>
+                         <div class="form-group">
+                            <label for="id_profile" class="col-sm-3 control-label" style="text-decoration: underline;">{% trans 'Profile' %}</label>
+                            <div class="col-sm-9">
+                               {% render_field form.profile required='required' class="form-control" %}
+                            </div>
+                         </div>
+                        {{ form.date_start }}
+                        {{ form.date_end }}
+                </div>
+                <div class="modal-footer">
+                   <button class="btn btn-default" type="button" data-dismiss="modal">{% trans 'Cancel' %}</button>
+                   <button class="btn btn-primary" type="submit">{% trans 'Save changes' %}</button>
+                </div>
+            </form>
+         </div>
+      </div>
+   </div>
+{% endblock %}

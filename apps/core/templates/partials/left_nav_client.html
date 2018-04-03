@@ -1,0 +1,52 @@
+{% load i18n %}
+{% load staticfiles %}
+<div class="aside-inner">
+   <nav data-sidebar-anyclick-close="" class="sidebar">
+      <!-- START sidebar nav-->
+      <ul class="nav">
+         <!-- START user info-->
+         <li class="has-user-block">
+            <div id="user-block" class="collapse">
+               <div class="item user-block">
+                  <!-- User picture-->
+                  <div class="user-block-picture">
+                     <div class="user-block-status">
+                        {% if request.user.profile.avatar %}
+                              <img src="/media/{{request.user.profile.avatar}}" alt="Avatar" width="60" height="60" class="img-thumbnail img-circle">
+                           {%else%}
+                              <img src="{% static 'app/img/no_user.jpg' %}" alt="Avatar" width="60" height="60" class="img-thumbnail img-circle">
+                           {%endif%}
+                        <div class="circle circle-success circle-lg"></div>
+                     </div>
+                  </div>
+                  <!-- Name and Job-->
+                  <div class="user-block-info">
+                     <span class="user-block-name">{% trans 'Hello' %}, {{request.user.first_name}}</span>
+                     <span class="user-block-role"><a href="{%url 'update_profiles' request.user.profile.id %}">{% trans 'Update profile' %}</a></span>
+                  </div>
+               </div>
+            </div>
+         </li>
+         <!-- END user info-->
+         <!-- Iterates over all sidebar items-->
+         <li class="nav-heading ">
+            <span data-localize="sidebar.heading.HEADER">{% trans 'Menu' %}</span>
+         </li>
+         {% for obj in features %}
+         <li class=" ">
+            <a href="{{obj.url}}" title="{{obj.menu_item_name}}">
+               <em class="{{obj.icon}}"></em>
+               <span data-localize="sidebar.nav.WIDGETS">{{obj.menu_item_name}}</span>
+            </a>
+         </li>
+         {% endfor %}
+           <li class=" ">
+            <a href="/accounts/logout" title="Widgets">
+               <em class="icon-logout"></em>
+               <span data-localize="sidebar.nav.WIDGETS">{% trans 'Logout' %}</span>
+            </a>
+         </li>
+      </ul>
+      <!-- END sidebar nav-->
+   </nav>
+</div>

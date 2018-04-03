@@ -1,0 +1,87 @@
+{% extends 'base/base.html' %}
+{%load staticfiles %}
+{%load i18n %}
+{% block title %} {% trans 'Profiles' %} {% endblock %}
+{% block container %}
+     <section>
+         <!-- Page content-->
+         <div class="content-wrapper">
+            <div class="pull-right">
+               <div class="btn-group">
+                  <a href="{% url 'create_profiles' %}">
+                     <em class="fa fa-fw fa-plus mr"></em>
+                     <span>{% trans 'New profile' %}</span>
+                  </a>
+               </div>
+            </div>
+            <h3>{% trans 'Profiles' %}</h3>
+            <ol class="breadcrumb">
+               <li><a href="#">{% trans 'Home' %}</a> </li>
+               <li class="active">{% trans 'Profiles' %}</li>
+             </ol>
+            <div class="row">
+               {% for obj in profiles %}
+               <div class="col-md-4">
+                  <div class="panel panel-default">
+                     <div class="panel-heading">
+                        <a href="#" class="pull-right text-muted">
+                           <em class="fa"></em>
+                        </a>
+                     </div>
+                     <div class="panel-body text-center">
+                        <img src="{{obj.get_avatar}}" alt="Profile" class="center-block img-responsive img-circle thumb64">
+                        <h4>{{obj.user.first_name}}</h4>
+                        <p><strong>{% trans 'Phone' %}: {{obj.phone|default:'-'}} </strong>
+                           <br> <strong>{% trans 'Profession' %}</strong>: {{obj.profession|default:'-'}} </p>
+                     </div>
+                     <div class="panel-footer clearfix">
+                        <div class="pull-left">
+                           <a href="{% url 'update_profiles' obj.id %}" class="btn btn-xs btn-default">
+                           {% if request.user.profile.id == obj.id %}
+                              {% trans 'Edit Profile' %}
+                           {%else%}
+                              {% trans 'View Profile' %}
+                           {%endif%}
+                           </a>
+                        </div>
+                        <div class="pull-right">
+                           <div class="btn-group">
+                              <button data-toggle="dropdown" class="btn btn-xs btn-primary">
+                                 {% trans 'Options of declaration' %}
+                              </button>
+                              <ul role="menu" class="dropdown-menu dropdown-menu-right animated fadeInLeft">
+                                 <li>
+                                    <a href="">
+                                       <em class="fa fa-fw fa-plus mr"></em>
+                                       <span>{% trans 'Declaration Basic' %}</span>
+                                    </a>
+                                 </li>
+                                 <li>
+                                    <a href="">
+                                       <em class="fa fa-fw fa-plus mr"></em>
+                                       <span>{% trans 'Declarations Expert' %}</span>
+                                    </a>
+                                 </li>
+                                 <li>
+                                    <a href="">
+                                       <em class="fa fa-fw fa-plus mr"></em>
+                                       <span>{% trans 'Declaration in Zero' %}</span>
+                                    </a>
+                                 </li>
+                                 <li>
+                                    <a href="">
+                                       <em class="fa fa-fw fa-list mr"></em>
+                                       <span>{% trans 'List of declarations' %}</span>
+                                    </a>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               {%endfor%}
+            </div>
+         </div>
+      </section>
+{%endblock%}
